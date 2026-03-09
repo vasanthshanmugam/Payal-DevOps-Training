@@ -1,0 +1,12 @@
+name: Pull Request Workflow   # name of the workflow
+on: 
+    pull_request:
+        branches:
+            - main
+            - feat/*                  # trigger the workflow on pull request events
+jobs:
+    pull-request-check:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Check out code
+              uses: actions/checkout@v4
