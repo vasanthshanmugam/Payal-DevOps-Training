@@ -1,0 +1,16 @@
+name: Schedule Daily Task
+on:
+    schedule:
+        - cron: '0 0 * * *' # Runs every day at midnight UTC
+    workflow_dispatch: # Allows manual triggering of the workflow
+jobs:
+    run-cron-job:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout repository
+              uses: actions/checkout@v4
+
+            - name: Run script
+              run: |
+                echo "Scheduled job started at $(date)"
+                echo "Hello from your daily cron job"
