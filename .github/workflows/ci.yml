@@ -1,0 +1,8 @@
+name: Hello World Workflow   # name of the workflow
+on: [push]                   # trigger the workflow on push events
+jobs:                        # jobs (groups of work)
+    say-hello:        # name of the job
+        runs-on: ubuntu-latest # machine to run the job on
+        steps:        # steps (individual tasks)
+            - name: Say Hello
+              run: echo "Hello, World!"
