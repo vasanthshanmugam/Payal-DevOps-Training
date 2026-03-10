@@ -1,7 +1,10 @@
 name: Schedule Daily Task
 on:
     schedule:
-        - cron: '0 0 * * *' # Runs every day at midnight UTC
+        - cron: '0 0 * * *' # Runs every day at midnight UTC # 0 (minute) 0 (hour) * (day of month) * (month) * (day of week)
+        # 0 9 * * 1 # Runs every Monday at 9:00 AM UTC
+        # */5 * * * * # Runs every 5 minutes
+        
     workflow_dispatch: # Allows manual triggering of the workflow
 jobs:
     run-cron-job:

@@ -1,0 +1,57 @@
+name: Manual Deployment with Inputs
+
+on:
+    workflow_dispatch:
+        inputs:
+            environment:
+                description: "Select the deployment environment"
+                required: true
+                default: 'dev'
+                type: choice
+                options:
+                    - dev
+                    - staging
+                    - production
+
+
+            debug_mode:
+                description: "Enable debug mode?"
+                required: false
+                default: 'false'
+                type: boolean
+jobs:
+    manual_deployment:
+        runs-on: ubuntu-latest
+        steps:
+            - name: step 1 - Checkout code
+              uses: actions/checkout@v4
+
+            - name : step 2 - Show the inputs provided
+              run: |
+                echo "MANUAL TRIGGER - INPUT SUMMARY"
+                echo "Environment: ${{ github.event.inputs.environment }}"
+                echo "Debug Mode: ${{ github.event.inputs.debug_mode }}"
+                echo "Triggered by : ${{ github.actor }}"
+                echo "RUN ID: ${{ github.run_id }}"
+
+            - name : Step 3 - Simulate deployment based on inputs
+              run: |
+                ENV="{{ github.event.inputs.environment }}"
+                echo "Deploying to $ENV environment.."
+
+                if [ "$ENV" == "production" ]; then
+                    echo "Production deployment - running extra checks"
+                else
+                    echo "Staging deploy - fast path"
+                fi
+
+                echo " Deployment to $ENV completed successfully!"
+
+            - name : Step 4 - Debug info
+              if : ${{ github.event.inputs.debug_mode == 'true' }}
+              run: |
+                echo "Debug mode is ON - showing extra info"
+                echo "GITHUB REPOSITORY: ${{ github.repository }}"
+                echo "GITHUB REF: ${{ github.ref }}"
+                echo "GITHUB SHA: ${{ github.sha }}"
+
