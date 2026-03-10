@@ -36,7 +36,7 @@ jobs:
 
             - name : Step 3 - Simulate deployment based on inputs
               run: |
-                ENV="{{ github.event.inputs.environment }}"
+                ENV="${{ github.event.inputs.environment }}"
                 echo "Deploying to $ENV environment.."
 
                 if [ "$ENV" == "production" ]; then
