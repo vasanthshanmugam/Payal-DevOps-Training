@@ -1,0 +1,40 @@
+name: All Triggers Workflow
+
+on:
+    push:
+        branches:
+            - main
+    pull_request:
+        branches:
+            - main
+    schedule:
+        - cron: '0 0 * * *' # Runs every day at midnight UTC
+    workflow_dispatch: # manual button
+
+jobs:
+    detect-trigger:
+        runs-on: ubuntu-latest
+
+        steps:
+            - name: checkout code
+              uses: actions/checkout@v4
+            - name: Detect which trigger is fired
+              run: |
+                  echo "TRIGGER DETECTION SUMMARY"
+                  echo "Event that fired : ${{ github.event_name }}"
+                  echo "Triggered by : ${{ github.actor }}"
+                  echo "Commit SHA: ${{ github.sha }}"
+
+                  if [ "$ {{ github.event_name }}" == "push" ]; then
+                    echo "This workflow was triggered by git push event"
+                  elif [ "${{ github.event_name }}" = "pull_request" ]; then
+                    echo "This workflow was triggered by PR event"
+                  elif [ "${{ github.event_name }}" = "schedule" ]; then
+                    echo "This workflow was triggered by a scheduled cron job"
+                  elif [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+                    echo "This is triggered by manual click"
+                  fi
+
+
+
+
