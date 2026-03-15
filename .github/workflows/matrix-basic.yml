@@ -1,0 +1,32 @@
+name: Matrix Basic Workflow
+on:
+    workflow_dispatch:
+
+jobs:
+    test:
+        name: Test (v${{ matrix.version }})
+        runs-on: ubuntu-latest
+
+        strategy:
+            matrix:
+                version: [18,20,22]
+        steps:
+            - name: Checkout Code
+              uses: actions/checkout@v4
+
+            - name: Show the matrix value
+              run: |
+                echo "Running with Version ${{ matrix.version }}"
+
+            - name: Simulate setting up a runtime
+              run: |
+                echo "Setting up runtime version ${{ matrix.version }}"
+                sleep 1
+                echo "Runtime v${{ matrix.version }} is ready"
+
+            - name: Simulate running tests
+              run: |
+                echo "Running test suite on version ${{ matrix.version }}"
+                sleep 2
+                echo "All tests passed successfully on version ${{ matrix.version }}"
+
