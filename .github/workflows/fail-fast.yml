@@ -1,0 +1,29 @@
+name: Matrix build - fail fast Demo
+
+on:
+    workflow_dispatch:
+
+jobs:
+    test:
+        name: Test (v${{ matrix.version }})
+        runs-on: ubuntu-latest
+
+        strategy:
+            fail-fast: true
+
+            matrix:
+                version: [18,20,22]
+        steps:
+            - name: Checkout code
+              uses: actions/checkout@v4
+
+            - name: Run tests ( versio 20 will fail)
+              run: |
+                echo: "Testing on version ${{ matrix.version }}"
+
+                if [ "${{ matrix.version }}" = "20" ]; then
+                    echo "Simulated test failure on version 20"
+                    exit 1
+                fi
+
+                 echo "Tests passed on version ${{ matrix.version }}"
